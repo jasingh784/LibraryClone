@@ -1,0 +1,32 @@
+<%- include("partials/header"); %>
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+    <div class="col-md-4">
+        <img src="<%= book.image %>" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+        <div class="card-body">
+        <h5 class="card-title"><%= book.title %></h5>
+        <p class="card-text"><b>Author:</b> <%= book.author %></p>
+        <p class="card-text"><b>Publisher:</b> <%= book.publisher %></p>
+        <p class="card-text"><b>ISBN:</b> <%= book.ISBN %></p>
+        <p class="card-text"><b>Sumarry:</b> <%= book.summary %></p>
+        <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
+        <a href="/books/<%= book._id %>/edit" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Edit</a>
+        <form action="/books/<%= book._id %>?_method=DELETE" method="POST">
+            <button type="submit" class="btn btn-danger">Remove</button>
+        </form>
+        <a href="/books/<%= book._id %>/checkout" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Checkout</a>
+    </div>
+    </div>
+    </div>
+</div>
+<!-- <img src="<%= book.image %>" alt="">
+<p>Author: <%= book.author %></p>
+<p>Title: <%= book.title %></p>
+<p>Publisher: <%= book.publisher %></p>
+<p>ISBN: <%= book.ISBN %></p>
+<p>Summary: <%= book.summary %></p> -->
+
+<%- include("partials/footer"); %>

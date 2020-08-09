@@ -1,0 +1,34 @@
+<%- include("partials/header") %>
+
+<h3>Add a book to the library catalog.</h3>
+<h4>Please enter book details below.</h4>
+<form method="POST" action="/books">
+    <div class="form-group">
+        <label for="bookTitle">Title</label>
+        <input type="text" class="form-control" id="bookTitle" name="book[title]" required>
+        <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+    </div>
+    <div class="form-group">
+        <label for="author">Author</label>
+        <input type="text" class="form-control" id="author" name="book[author]" required>
+    </div>
+    <div class="form-group">
+        <label for="publisher">Publisher</label>
+        <input type="text" class="form-control" id="publisher" name="book[publisher]" required>
+    </div>
+    <div class="form-group">
+        <label for="IDBN">ISBN</label>
+        <input type="number" class="form-control" id="ISBN" name="book[ISBN]" required>
+    </div>
+    <div class="form-group">
+        <label for="summary">Summary</label>
+        <textarea class="form-control" id="summary" rows="3" name="book[summary]" required></textarea>
+    </div>
+    <div class="form-group">
+        <label for="image">Image URL</label>
+        <input type="url" class="form-control" id="image" name="book[image]" required>
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+<%- include("partials/footer") %>

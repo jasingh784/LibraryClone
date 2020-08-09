@@ -1,0 +1,34 @@
+<%- include("partials/header") %>
+
+<h3>You are about to check out: </h3>
+
+<div class="card mb-3" style="max-width: 540px;">
+    <div class="row no-gutters">
+    <div class="col-md-4">
+        <img src="<%= book.image %>" class="card-img" alt="...">
+    </div>
+    <div class="col-md-8">
+        <div class="card-body">
+        <h5 class="card-title"><%= book.title %></h5>
+        <p class="card-text"><b>Author:</b> <%= book.author %></p>
+        <p class="card-text"><b>Publisher:</b> <%= book.publisher %></p>
+        <p class="card-text"><b>ISBN:</b> <%= book.ISBN %></p>
+        <p class="card-text"><b>Due Date:</b> <%= getDueDate() %></p>
+        <form action="/books/<%= book._id%>/checkout?_method=PUT" method="POST">
+            <button type="submit" class="btn btn-primary">Confirm Checkout</button>
+        </form>
+    </div>
+    </div>
+    </div>
+</div>
+
+<% function getDueDate() { %>
+    <% let ts = Date.now() + 12096e5; %>
+    <% let date_ob = new Date(ts) %>
+    <% let date = date_ob.getDate(); %>
+    <% let month = date_ob.getMonth() + 1; %>
+    <% let year = date_ob.getFullYear(); %>
+    <% return `${month}-${date}-${year}` %>
+<% } %>
+<%- include("partials/footer") %>
+
