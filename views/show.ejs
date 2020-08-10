@@ -1,6 +1,6 @@
 <%- include("partials/header"); %>
 
-<div class="card mb-3" style="max-width: 540px;">
+<div class="card mb-3" style="margin: auto;">
     <div class="row no-gutters">
     <div class="col-md-4">
         <img src="<%= book.image %>" class="card-img" alt="...">
@@ -13,11 +13,19 @@
         <p class="card-text"><b>ISBN:</b> <%= book.ISBN %></p>
         <p class="card-text"><b>Sumarry:</b> <%= book.summary %></p>
         <p class="card-text"><small class="text-muted">Last updated 3 mins ago</small></p>
-        <a href="/books/<%= book._id %>/edit" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Edit</a>
-        <form action="/books/<%= book._id %>?_method=DELETE" method="POST">
-            <button type="submit" class="btn btn-danger">Remove</button>
-        </form>
-        <a href="/books/<%= book._id %>/checkout" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Checkout</a>
+        <div id="show-buttons">
+            <a href="/books/<%= book._id %>/edit" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Edit</a>
+            <form action="/books/<%= book._id %>?_method=DELETE" method="POST">
+                <button type="submit" class="btn btn-danger btn-lg">Remove</button>
+            </form>
+            <% if(book.quantity > 0) { %>
+                <a href="/books/<%= book._id %>/checkout" class="btn btn-primary btn-lg active" role="button" aria-pressed="true">Checkout</a>
+            <% } else { %>
+                <a href="" class="btn btn-primary btn-lg disabled" role="button" aria-pressed="true">Unavailable</a>
+            <% } %>
+            
+        </div>
+
     </div>
     </div>
     </div>

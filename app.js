@@ -120,7 +120,7 @@ app.get("/books/:id/edit", (req, res) => {
     });
 });
 
-app.get("/books/:id/checkout", (req, res) => {
+app.get("/books/:id/checkout", isLoggedIn, (req, res) => {
     Book.findById(req.params.id, (err, foundBook) => {
         if(err) {
             res.redirect("/books");
@@ -191,7 +191,12 @@ app.get("/register", (req, res) => {
 
 //handle sign up logic
 app.post("/register", (req, res) => {
-    let newUser = new User({username: req.body.username});
+    let newUser = new User({
+        firstname: req.body.firstname,
+        lastname: req.body.lastname,
+        username: req.body.username,
+        email: req.body.email
+        });
     User.register(newUser, req.body.password, (err, user) => {
         if(err) {
             console.log(err);
@@ -211,9 +216,10 @@ app.get("/login", (req, res) => {
 app.post("/login", passport.authenticate("local", {
     successRedirect: "/books",
     failureRedirect: "/login"
-}) ,(req, res) => {
+}), (req, res) => {
 
 });
+
 
 //logout route
 app.get("/logout", (req, res) => {

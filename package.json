@@ -4,7 +4,8 @@
   "description": "A clone of public libaray website.",
   "main": "app.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node app",
+    "dev": "nodemon app"
   },
   "author": "Jaskaran Singh",
   "license": "ISC",
@@ -18,5 +19,8 @@
     "passport": "^0.4.1",
     "passport-local": "^1.0.0",
     "passport-local-mongoose": "^6.0.1"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }
