@@ -12,6 +12,7 @@ const PORT = 3000;
 
 const Book = require("./models/book");
 const user = require("./models/user");
+const book = require("./models/book");
 
 app.set("view engine", "ejs");
 app.use(express.static("public"));
@@ -29,6 +30,11 @@ app.use(passport.session());
 passport.use(new LocalStrategy(User.authenticate()));
 passport.serializeUser(User.serializeUser());
 passport.deserializeUser(User.deserializeUser());
+
+app.use( (req, res, next) => {
+    res.locals.currentUser = req.user;
+    next();
+});
 
 //connect to database
 // mongoose.connect("mongodb://localhost:27017/library_db", {
@@ -144,14 +150,14 @@ app.put("/books/:id", (req, res) => {
 
 //checkout
 
-app.put("/books/:id/checkout", (req, res) => {
+app.put("/books/:id/checkout", isLoggedIn, (req, res) => {
     //update the quantity field in the database to subtract 1 book being checkedout
     Book.findByIdAndUpdate(req.params.id, {$inc : {quantity: - 1} }, {new : true}, (err, updatedBook) => {
         if(err) {
             console.log(err);
         } else {
             //res.redirect("/books/" + updatedBook._id);
-            User.findByIdAndUpdate( (err, foundUser) => {
+            User.findById(req.user.id, (err, foundUser) => {
                 if(err) {
                     console.log(err);
                 } else {
@@ -161,6 +167,7 @@ app.put("/books/:id/checkout", (req, res) => {
                             console.log(err);
                         } else {
                             console.log(data);
+                            res.redirect("/books");
                         }
                     })
                 }
@@ -195,7 +202,8 @@ app.post("/register", (req, res) => {
         firstname: req.body.firstname,
         lastname: req.body.lastname,
         username: req.body.username,
-        email: req.body.email
+        email: req.body.email,
+        address: req.body.address,
         });
     User.register(newUser, req.body.password, (err, user) => {
         if(err) {
@@ -213,11 +221,11 @@ app.get("/login", (req, res) => {
     res.render("login");
 });
 
-app.post("/login", passport.authenticate("local", {
-    successRedirect: "/books",
-    failureRedirect: "/login"
-}), (req, res) => {
-
+app.post("/login", 
+    passport.authenticate("local", { failureRedirect: "/login" }), 
+    (req, res) => {
+        console.log(req.user);
+        res.redirect('/books');
 });
 
 
@@ -226,6 +234,23 @@ app.get("/logout", (req, res) => {
     req.logout();
     res.redirect("/books");
 });
+
+//account route
+app.get("/account/:id", isLoggedIn, async (req, res) => {
+
+    try {
+        const foundUser = await User.findById(req.params.id).exec();
+        const userBooks = await Book.find().where('_id').in(foundUser.books).exec();
+
+    } catch (error) {
+        console.log(error);
+    }
+    
+    console.log(userBooks);
+    res.render('account', {userBooks : userBooks});
+    
+    
+}); 
 
 app.listen(PORT, () => {
     console.log("Server is listening");

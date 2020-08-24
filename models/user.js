@@ -7,6 +7,8 @@ const userSchema = new mongoose.Schema({
     username: String,
     password: String,
     email: String,
+    address: String,
+    permission: {type : String, default : 'user'},
     books: [
         {
             type: mongoose.Schema.Types.ObjectId,

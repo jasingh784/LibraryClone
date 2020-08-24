@@ -15,7 +15,9 @@
         <p class="card-text"><b>ISBN:</b> <%= book.ISBN %></p>
         <p class="card-text"><b>Due Date:</b> <%= getDueDate() %></p>
         <form action="/books/<%= book._id%>/checkout?_method=PUT" method="POST">
-            <% if(book.quantity > 0) { %>
+            <% if(currentUser.books.includes(book._id)) { %> 
+                <button type="submit" class="btn btn-primary" disabled>Already checked out by you</button>
+            <% } else if(book.quantity > 0) { %>    
                 <button type="submit" class="btn btn-primary">Confirm Checkout</button>
             <% } else { %>
                 <button type="submit" class="btn btn-primary" disabled>Unavailable</button>
