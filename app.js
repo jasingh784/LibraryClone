@@ -8,7 +8,7 @@ const bodyParser        = require("body-parser"),
 
 const app = express();
 
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
 const Book = require("./models/book");
 const user = require("./models/user");
