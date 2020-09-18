@@ -74,6 +74,12 @@ mongoose.connect("mongodb+srv://dbAdmin:Singh775!@cluster0.m1kqa.mongodb.net/lib
 
 //routes
 //index route
+
+app.get("/", (req, res) => {
+    res.redirect('/books');
+});
+
+
 app.get("/books", (req, res) => {
     Book.find({}, (err, books) => {
         if(err) {
